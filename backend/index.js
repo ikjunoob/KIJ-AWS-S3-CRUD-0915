@@ -14,7 +14,7 @@ app.use(cors({
 }))
 
 app.use(express.json())
-app.use()
+app.use('/api/files', filesRouter)
 
 app.get('/', (req, res) => {
     res.send('Hello world')
