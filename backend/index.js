@@ -23,23 +23,3 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server is running ${PORT}`)
 })
-
-router.get('/',async(req,res)=>{
-    try {
-        
-        const items =await FileItem.find().sort({createdAt:-1}).lean()
-
-        const out = await Promise.all(
-            items.map(async(it)=>({
-                ...it,
-                url:await presignGet(it.key,300)
-            }))
-        )
-
-        res.status(201).json({message:"S3 메타데이터 가져오기",out})
-        
-    } catch (error) {
-        console.error('메타데이터 저장 에러',error)
-        res.status(500).json({error:"S3 메타데이터 저장 실패"})
-    }
-})
