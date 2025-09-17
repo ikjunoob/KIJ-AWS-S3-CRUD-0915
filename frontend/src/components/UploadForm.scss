@@ -16,9 +16,10 @@
 
     }
 
-    input[types="text"] {
+    input[type="text"] {
         // flex: 1;
         border: .1rem solid var(--border);
+        outline: none;
 
     }
 
