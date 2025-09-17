@@ -8,7 +8,7 @@ const UploadForm = ({ onDone }) => {
     const [loading, setLoading] = useState(false)
 
     const upload = async (e) => {
-        e.preventDafault()
+        e.preventDefault()
         if (!file) return alert("파일을 선택하세요.")
         setLoading(true)
         try {
@@ -42,9 +42,17 @@ const UploadForm = ({ onDone }) => {
             })
             console.log('db 업로드 성공 ', metaRes.data)
 
+            onDone?.()
+            setTitle("")
+            setDesc("")
+            setFile(null)
+            console.log('업로드 완료 ')
 
         } catch (error) {
-
+            console.error("업로드 에러", error)
+            alert('업로드에 실패했습니다.')
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -60,11 +68,13 @@ const UploadForm = ({ onDone }) => {
 
                 <input
                     value={title}
+                    onChange={(e) => setTitle(e.target.value)}
                     type="text"
                     placeholder='title' />
                 <input
                     value={desc}
                     type="text"
+                    onChange={(e) => setDesc(e.target.value)}
                     placeholder='description' />
                 <button type='submit' className='upload-btn' disabled={loading}>
                     {loading ? "Uploading...." : "upload"}
